@@ -1,0 +1,11 @@
+Def Main()
+Var A = 5
+Var R = 0
+Call Multiply(A, 3, &R)
+Disp R
+End Main
+
+Def Multiply(A, B, R)
+Var T = 3
+Var R = A*B*T
+End Multiply
