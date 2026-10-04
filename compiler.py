@@ -69,7 +69,6 @@ def parseParams(params: str) -> list[str]:
 #  →  ∟
 
 varCmds = ("Disp","Input","Prompt","If","While")
-numericFunctions = ("abs", "cos", "sin", "tan", "cosh", "sinh", "tanh")
 
 # parses a function body into a list of TI-Basic compatible lines of code
 #   these compatible lines do not have a leading colon, that's to be added
