@@ -7,6 +7,7 @@ Quick and dirty 'compiler' from a custom language into TI84 Basic that allows fo
     - They follow more [standard](# "fight me") programming A = {Expression} syntax
     - You should always declare your variables outside of any conditionals and before using them for If, Input, Disp, etc.
     - They might even work with abs(), cos(), tan() other single variable functions
+    - You have to use them every time you want to assign to a local variable, not just to declare them
 - "ToSys" directives can be used to hack things into working (items on the left side of the arrow are parsed by the 'compiler', while the right side is untouched)
     - If a single variable is on the left, it's parsed and left as a single variable. Having multiple variables on the left (comma separated) will parse them into a list
 - You can use system variables in the same statements as your local variables (append a '.' in front of the name)
