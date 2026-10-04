@@ -4,7 +4,7 @@ Quick and dirty 'compiler' from a custom language into TI84 Basic that allows fo
 ## Features
 - REAL COMMENTS EXIST!!! Starting a line with # or // in your .txt file will lead to that line being skipped in 'compilation'!
 - "Var" directives can be used to create local variables (real numbers only i think please)
-    - They follow more [standard](## "fight me") programming A = {Expression} syntax
+    - They follow more [standard](# "fight me") programming A = {Expression} syntax
     - You should always declare your variables outside of any conditionals and before using them for If, Input, Disp, etc.
     - They might even work with abs(), cos(), tan() other single variable functions
 - "ToSys" directives can be used to hack things into working (items on the left side of the arrow are parsed by the 'compiler', while the right side is untouched)
