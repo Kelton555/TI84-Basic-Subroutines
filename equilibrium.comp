@@ -1,0 +1,154 @@
+SetUpEditor ⌊STACK,⌊LOCAL
+Goto EG
+
+Lbl R
+If ⌊STACK(dim(⌊STACK))=0:Goto BM
+If ⌊STACK(dim(⌊STACK))=1:Goto R0
+If ⌊STACK(dim(⌊STACK))=2:Goto 07
+Disp "ERROR: Bad call"
+
+Lbl EG
+0→⌊LOCAL(dim(⌊LOCAL)+1)
+0→⌊LOCAL(dim(⌊LOCAL)+1)
+I→⌊LOCAL(dim(⌊LOCAL)-1)
+Input "Dimensions=",I
+I→⌊LOCAL(dim(⌊LOCAL)-0)
+⌊LOCAL(dim(⌊LOCAL)-1)→I
+
+If ⌊LOCAL(dim(⌊LOCAL)-0)<2
+Return
+
+If ⌊LOCAL(dim(⌊LOCAL)-0)>3
+Return
+
+
+
+0→⌊LOCAL(dim(⌊LOCAL)+1)
+I→⌊LOCAL(dim(⌊LOCAL)-2)
+Input "# of unknown vectors=",I
+I→⌊LOCAL(dim(⌊LOCAL)-0)
+⌊LOCAL(dim(⌊LOCAL)-2)→I
+
+0→⌊LOCAL(dim(⌊LOCAL)+1)
+0→⌊LOCAL(dim(⌊LOCAL)+1)
+
+If ⌊LOCAL(dim(⌊LOCAL)-2)=1
+Then
+
+⌊LOCAL(dim(⌊LOCAL)-3)→dim(⌊KSUM)
+⌊KSUM*0→⌊KSUM
+
+I→⌊LOCAL(dim(⌊LOCAL)-4)
+Input "# of known vectors=",I
+I→⌊LOCAL(dim(⌊LOCAL)-1)
+⌊LOCAL(dim(⌊LOCAL)-4)→I
+⌊LOCAL(dim(⌊LOCAL)-1)→I
+While I>0
+Disp "Enter coefficients or values:"
+⌊LOCAL(dim(⌊LOCAL)-3)→⌊STACK(dim(⌊STACK)+1)
+0→⌊STACK(dim(⌊STACK)+1)
+Goto 4A
+Lbl BM
+dim(⌊STACK)-2→dim(⌊STACK)
+I→⌊LOCAL(dim(⌊LOCAL)-4)
+Input "Enter magnitude (or 1):",I
+I→⌊LOCAL(dim(⌊LOCAL)-0)
+⌊LOCAL(dim(⌊LOCAL)-4)→I
+⌊LOCAL(dim(⌊LOCAL)-0)*⌊F→⌊F
+⌊KSUM+⌊F→⌊KSUM
+I-1→I
+End
+
+DelVar ⌊F
+
+0-⌊KSUM→⌊KSUM
+Disp "i=",⌊KSUM(1)
+Disp "j=",⌊KSUM(2)
+If ⌊LOCAL(dim(⌊LOCAL)-3)=3
+Then
+Disp "k=",⌊KSUM(3)
+√(⌊KSUM(2)²+⌊KSUM(1)²+⌊KSUM(3)²)→I 
+Disp "Mag=",I
+Disp "Al=",cos(⌊KSUM(1)/I)
+Disp "Be=",cos(⌊KSUM(2)/I)
+Disp "Ga=",cos(⌊KSUM(3)/I)
+Else
+Disp "Mag=",√(⌊KSUM(2)²+⌊KSUM(1)²)
+Disp "θ(y/x)=",tan(abs(⌊KSUM(2))/abs(⌊KSUM(1)))
+End
+DelVar ⌊KSUM
+
+Else
+⌊LOCAL(dim(⌊LOCAL)-2)→I
+{⌊LOCAL(dim(⌊LOCAL)-3),⌊LOCAL(dim(⌊LOCAL)-2)+1}→dim([I])
+While I>0
+Disp "Enter coefficients [0-1]:"
+⌊LOCAL(dim(⌊LOCAL)-3)→⌊STACK(dim(⌊STACK)+1)
+1→⌊STACK(dim(⌊STACK)+1)
+Goto 4A
+Lbl R0
+dim(⌊STACK)-2→dim(⌊STACK)
+⌊F(1)→[I](1,I)
+⌊F(2)→[I](2,I)
+If ⌊LOCAL(dim(⌊LOCAL)-3)=3
+⌊F(3)→[I](3,I)
+I-1→I
+End
+
+I→⌊LOCAL(dim(⌊LOCAL)-4)
+Input "# of known vectors=",I
+I→⌊LOCAL(dim(⌊LOCAL)-1)
+⌊LOCAL(dim(⌊LOCAL)-4)→I
+⌊LOCAL(dim(⌊LOCAL)-1)→I
+⌊LOCAL(dim(⌊LOCAL)-3)→dim(⌊KSUM)
+⌊KSUM*0→⌊KSUM
+While I>0
+Disp "Enter components"
+⌊LOCAL(dim(⌊LOCAL)-3)→⌊STACK(dim(⌊STACK)+1)
+2→⌊STACK(dim(⌊STACK)+1)
+Goto 4A
+Lbl 07
+dim(⌊STACK)-2→dim(⌊STACK)
+⌊KSUM+⌊F→⌊KSUM
+I-1→I
+End
+DelVar ⌊F
+
+⌊LOCAL(dim(⌊LOCAL)-2)+1→I
+0-⌊KSUM(1)→[I](1,I)
+0-⌊KSUM(2)→[I](2,I)
+If ⌊LOCAL(dim(⌊LOCAL)-3)=3
+0-⌊KSUM(3)→[I](3,I)
+
+DelVar ⌊KSUM
+
+rref([I])→[I]
+End
+dim(⌊LOCAL)-5→dim(⌊LOCAL)
+Return
+
+Lbl 4A
+0→⌊LOCAL(dim(⌊LOCAL)+1)
+0→⌊LOCAL(dim(⌊LOCAL)+1)
+0→⌊LOCAL(dim(⌊LOCAL)+1)
+0→⌊LOCAL(dim(⌊LOCAL)+1)
+
+I→⌊LOCAL(dim(⌊LOCAL)-3)
+Input "i=",I
+I→⌊LOCAL(dim(⌊LOCAL)-2)
+⌊LOCAL(dim(⌊LOCAL)-3)→I
+I→⌊LOCAL(dim(⌊LOCAL)-3)
+Input "j=",I
+I→⌊LOCAL(dim(⌊LOCAL)-1)
+⌊LOCAL(dim(⌊LOCAL)-3)→I
+{⌊LOCAL(dim(⌊LOCAL)-2),⌊LOCAL(dim(⌊LOCAL)-1)}→⌊F
+If ⌊STACK(dim(⌊STACK)-1)=3
+Then
+I→⌊LOCAL(dim(⌊LOCAL)-3)
+Input "k=",I
+I→⌊LOCAL(dim(⌊LOCAL)-0)
+⌊LOCAL(dim(⌊LOCAL)-3)→I
+{⌊LOCAL(dim(⌊LOCAL)-2),⌊LOCAL(dim(⌊LOCAL)-1),⌊LOCAL(dim(⌊LOCAL)-0)}→⌊F
+End
+dim(⌊LOCAL)-4→dim(⌊LOCAL)
+Goto R

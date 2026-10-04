@@ -1,0 +1,121 @@
+# Program for calculating unknown forces in a static equilibrium problem
+Def Main()
+Var DIMENSIONS = 0
+Input "Dimensions=",DIMENSIONS
+
+# Prevent bad dimension numbers
+If DIMENSIONS<2
+Return
+
+If DIMENSIONS>3
+Return
+
+//ToSys DIMENSIONS,DIMENSIONS+1 →dim([I])
+
+// Get the unknown coefficients and place them into the matrix
+// Vectors are treated as column vectors
+
+Var UV = 0
+Input "# of unknown vectors=",UV
+
+// We should not define things inside of a conditional
+Var KV = 0
+Var M = 0
+
+If UV=1
+Then
+// If there's only one unknown, all we need to do is calculate and sum the knowns
+// The reverse of this is the unknown
+
+ToSys DIMENSIONS →dim(⌊KSUM)
+:⌊KSUM*0→⌊KSUM
+
+Input "# of known vectors=",KV
+ToSys KV →I
+:While I>0
+Disp "Enter coefficients or values:"
+Call GetVector(DIMENSIONS)
+Input "Enter magnitude (or 1):",M
+ToSys M*.⌊F →⌊F
+:⌊KSUM+⌊F→⌊KSUM
+:I-1→I
+:End
+
+:DelVar ⌊F
+
+// Now reverse the sum of vectors to find the unknown, and display this
+:0-⌊KSUM→⌊KSUM
+:Disp "i=",⌊KSUM(1)
+:Disp "j=",⌊KSUM(2)
+If DIMENSIONS = 3
+Then
+:Disp "k=",⌊KSUM(3)
+:√(⌊KSUM(2)²+⌊KSUM(1)²+⌊KSUM(3)²)→I 
+:Disp "Mag=",I
+:Disp "Al=",cos(⌊KSUM(1)/I)
+:Disp "Be=",cos(⌊KSUM(2)/I)
+:Disp "Ga=",cos(⌊KSUM(3)/I)
+Else
+:Disp "Mag=",√(⌊KSUM(2)²+⌊KSUM(1)²)
+:Disp "θ(y/x)=",tan(abs(⌊KSUM(2))/abs(⌊KSUM(1)))
+End
+:DelVar ⌊KSUM
+
+Else
+// If there's more than one unknown, we must know their coefficients
+// Therefore, we'll do a matrix setup to solve the system of equations
+ToSys UV →I
+ToSys DIMENSIONS,UV+1 →dim([I])
+:While I>0
+Disp "Enter coefficients [0-1]:"
+Call GetVector(DIMENSIONS)
+:⌊F(1)→[I](1,I)
+:⌊F(2)→[I](2,I)
+If DIMENSIONS=3
+:⌊F(3)→[I](3,I)
+:I-1→I
+:End
+
+// Get the known vectors, calculate their sum, then use to fill last column of matrix
+Input "# of known vectors=",KV
+ToSys KV →I
+ToSys DIMENSIONS →dim(⌊KSUM)
+:⌊KSUM*0→⌊KSUM
+:While I>0
+Disp "Enter components"
+Call GetVector(DIMENSIONS)
+:⌊KSUM+⌊F→⌊KSUM
+:I-1→I
+:End
+:DelVar ⌊F
+
+// Fill the matrix with the negative of the known amounts
+//   as constants (b vector)
+ToSys UV+1 →I
+:0-⌊KSUM(1)→[I](1,I)
+:0-⌊KSUM(2)→[I](2,I)
+If DIMENSIONS=3
+:0-⌊KSUM(3)→[I](3,I)
+
+:DelVar ⌊KSUM
+
+// Solve the matrix using RREF
+:rref([I])→[I]
+End
+End Main
+
+# Puts the resulting vector into list F
+Def GetVector(DIMS)
+Var I = 0
+Var J = 0
+Var K = 0
+
+Input "i=",I
+Input "j=",J
+ToSys I,J →⌊F
+If DIMS=3
+Then
+Input "k=",K
+ToSys I,J,K →⌊F
+End
+End GetVector
