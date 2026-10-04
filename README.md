@@ -26,6 +26,6 @@ Quick and dirty 'compiler' from a custom language into TI84 Basic that allows fo
             - The call is Call Multiply(A,B,&C) (where C is a 'local' variable)
     - Internally implemented through Goto, hence the allusion to subroutines
         - This means that you can only have so many function calls because there's like 1400 allowed labels
-        - Be careful where you jump through and from or else memory might leak. i don't actually fully know how it works so even the sample codes might be a little leaky
+        - Be careful where you jump to and from or else memory might leak. i don't actually fully know how it works so even the sample codes might be a little leaky
 
 ### It is worth noting that this language is not designed with the idea of being capable of fully replacing TI-Basic; the idea is that you will have a lot of actual TI-Basic imbedded into the code. The 'compiler' only exists to make procedural programming significantly less complex
